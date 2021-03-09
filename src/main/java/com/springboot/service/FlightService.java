@@ -1,16 +1,26 @@
 package com.springboot.service;
 
 import com.springboot.model.Flight;
-import org.springframework.data.domain.Page;
+import com.springboot.model.FlightDTO;
+
+import java.util.List;
 
 public interface FlightService {
 
-    Flight addFlight(Flight flight);
+    FlightDTO addFlight(Flight flight);
 
-    Page<Flight> getFlight(int size, int page);
+    Flight getFlightById(Integer id);
 
-    Flight findFlight(int id);
+    List<FlightDTO> getFlight(Integer size, Integer page, Integer airlineId);
 
-    Flight editFlight(int id, Flight flight);
+    FlightDTO findFlight(Integer id);
+
+    FlightDTO editFlight(Integer id, Flight flight);
+
+    void delete(Integer id);
+
+    FlightDTO addPassengerIntoFlight(Integer flightId, Integer passengerId);
+
+    FlightDTO addMiscellaneousIntoFlight(Integer flightId, String strMiscellaneous);
 
 }
