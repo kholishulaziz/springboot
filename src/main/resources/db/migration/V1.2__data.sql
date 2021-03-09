@@ -21,4 +21,4 @@ INSERT INTO Flight_passenger (flight_id, passenger_id)
     values(0, 2);
 
 INSERT INTO Miscellaneous (miscellaneous_id, miscellaneous, flight_id)
-    VALUES(0, 'Snack & Drink', 1);
+    VALUES(1, 'Snack & Drink', 0);
