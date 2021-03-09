@@ -13,12 +13,15 @@ INSERT INTO Passenger (passenger_id, first_name, last_name)
     VALUES(3, 'Sirius', 'Black');
 
 INSERT INTO Flight (flight_id, departure_date, destination, flight_code, origin, airline_id)
-    VALUES(0, '2021-01-01 08:00:00.000', 'JOG', 'GA303', 'SUB', 1);
+    VALUES(1, '2021-01-01 08:00:00.000', 'JOG', 'GA303', 'SUB', 1);
 
 INSERT INTO Flight_passenger (flight_id, passenger_id)
-    values(0, 1);
+    values(1, 1);
 INSERT INTO Flight_passenger (flight_id, passenger_id)
-    values(0, 2);
+    values(1, 2);
 
 INSERT INTO Miscellaneous (miscellaneous_id, miscellaneous, flight_id)
-    VALUES(1, 'Snack & Drink', 0);
+    VALUES(1, 'Snack & Drink', 1);
+
+CREATE SEQUENCE IF NOT EXISTS hibernate_sequence START 100;
+ALTER SEQUENCE IF EXISTS hibernate_sequence RESTART WITH 100;
