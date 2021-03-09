@@ -2,8 +2,13 @@
 
 **Tools:**
 * JDK 8
+* Maven
 * Springboot 2.5.0
+* PostgreSQL
 * Swagger
+* Flyway
+* Junit
+* Mockito
 
 **Running apps:**
 ```
