@@ -23,4 +23,6 @@ public interface FlightService {
 
     FlightDTO addMiscellaneousIntoFlight(Integer flightId, String strMiscellaneous);
 
+    List<FlightDTO> getOtherFlight(Integer airlineId);
+
 }

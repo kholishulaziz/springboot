@@ -6,10 +6,12 @@ import com.springboot.model.Miscellaneous;
 import com.springboot.model.Passenger;
 import com.springboot.repository.FlightRepository;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +35,12 @@ public class FlightServiceImpl implements FlightService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private WebClient webClient;
+
+    @Value("${api.other-flight.url}")
+    private String otherFlightURL;
 
     @Override
     public FlightDTO addFlight(Flight flight) {
@@ -112,9 +120,20 @@ public class FlightServiceImpl implements FlightService {
         return flightDTO;
     }
 
+    @Override
+    public List<FlightDTO> getOtherFlight(Integer airlineId) {
+        String queryParam = (airlineId == null) ? "" : "?airline.id=" + airlineId;
+        Flux<Flight> flightStream = webClient.get().uri(otherFlightURL + queryParam)
+                    .retrieve()
+                    .bodyToFlux(Flight.class);
+
+        List<Flight> flights = flightStream.collectList().block();
+        List<FlightDTO> flightsDTO = flights.stream().map(this::convertToFlightDTO)
+                .collect(Collectors.toList());
+        return flightsDTO;
+    }
+
     private FlightDTO convertToFlightDTO(Flight flight) {
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.STRICT);
         FlightDTO flightDTO = modelMapper
                 .map(flight, FlightDTO.class);
         return flightDTO;

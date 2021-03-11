@@ -133,4 +133,19 @@ public class FlightController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping(value = Const.API_OTHER_FLIGHT)
+    public ResponseEntity<BaseResponse<Collection<FlightDTO>>> getOtherFlight(
+            @RequestParam(required = false) Integer airlineId) {
+        BaseResponse<Collection<FlightDTO>> response = new BaseResponse<>();
+        try {
+            List<FlightDTO> flight = flightService.getOtherFlight(airlineId);
+            response.setMessage(Const.MESSAGE_SUCCESS);
+            response.setBody(flight);
+        } catch (Exception e) {
+            response.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }

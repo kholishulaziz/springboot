@@ -4,7 +4,6 @@ import com.springboot.model.Passenger;
 import com.springboot.model.PassengerDTO;
 import com.springboot.repository.PassengerRepository;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +22,9 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public List<PassengerDTO> getPassenger() {
-
         List<PassengerDTO> passengers = passengerRepository.findAll().stream().map(this::convertToPassengerDTO)
                 .collect(Collectors.toList());
         return passengers;
-
     }
 
     @Override
@@ -39,8 +36,6 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     private PassengerDTO convertToPassengerDTO(Passenger passenger) {
-        modelMapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.STRICT);
         PassengerDTO passengerDTO = modelMapper
                 .map(passenger, PassengerDTO.class);
         return passengerDTO;
