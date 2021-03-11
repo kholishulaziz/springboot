@@ -3,7 +3,7 @@
 **Tools:**
 * JDK 8
 * Maven
-* Springboot 2.5.0
+* Springboot 2.4.3
 * PostgreSQL
 * Swagger
 * Flyway
