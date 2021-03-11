@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 
 import java.util.List;
 import java.util.Optional;
@@ -123,14 +122,12 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<FlightDTO> getOtherFlight(Integer airlineId) {
         String queryParam = (airlineId == null) ? "" : "?airline.id=" + airlineId;
-        Flux<Flight> flightStream = webClient.get().uri(otherFlightURL + queryParam)
+        List<FlightDTO> flights = webClient.get().uri(otherFlightURL + queryParam)
                     .retrieve()
-                    .bodyToFlux(Flight.class);
-
-        List<Flight> flights = flightStream.collectList().block();
-        List<FlightDTO> flightsDTO = flights.stream().map(this::convertToFlightDTO)
-                .collect(Collectors.toList());
-        return flightsDTO;
+                    .bodyToFlux(FlightDTO.class)
+                    .collectList()
+                    .block();
+        return flights;
     }
 
     private FlightDTO convertToFlightDTO(Flight flight) {
