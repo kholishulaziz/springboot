@@ -58,12 +58,16 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public List<FlightDTO> getFlight(Integer size, Integer page, Integer airlineId) {
+    public List<FlightDTO> getFlight(Integer size, Integer page, Integer airlineId, String flightCode) {
         size = (size == null) ? 10: size;
         page = (page == null) ? 0: page;
         List<Flight> flights;
-            if (airlineId != null)
+            if (airlineId != null && flightCode==null)
                 flights = flightRepository.findByAirlineId(PageRequest.of(page, size), airlineId);
+            else if (airlineId == null && flightCode!=null)
+                flights = flightRepository.findByFlightCodeContainingOrderByIdAsc(PageRequest.of(page, size), flightCode);
+            else if (airlineId != null && flightCode!=null)
+                flights = flightRepository.findByAirlineAndFlightCode(PageRequest.of(page, size), airlineId, flightCode);
             else
                 flights = flightRepository.findAllByOrderByIdAsc(PageRequest.of(page, size));
         List<FlightDTO> flightsDTO = flights.stream().map(this::convertToFlightDTO)

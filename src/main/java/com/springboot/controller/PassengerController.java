@@ -25,7 +25,7 @@ public class PassengerController {
     @Autowired
     private PassengerService passengerService;
 
-    @GetMapping(value = Const.API_PASSENGER)
+    @GetMapping(value = Const.API_PASSENGERS)
     public ResponseEntity<BaseResponse<Collection<PassengerDTO>>> getAllPassenger() {
         BaseResponse<Collection<PassengerDTO>> response = new BaseResponse<>();
         try {

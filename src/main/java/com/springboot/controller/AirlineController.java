@@ -25,7 +25,7 @@ public class AirlineController {
     @Autowired
     private AirlineService airlineService;
 
-    @GetMapping(value = Const.API_AIRLINE)
+    @GetMapping(value = Const.API_AIRLINES)
     public ResponseEntity<BaseResponse<Collection<Airline>>> getAllAirline() {
         BaseResponse<Collection<Airline>> response = new BaseResponse<>();
         try {

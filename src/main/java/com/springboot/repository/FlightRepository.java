@@ -14,6 +14,11 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
     @Query(value = "SELECT * FROM Flight WHERE airline_id = :airlineId ORDER BY flight_id", nativeQuery=true)
     List<Flight> findByAirlineId(Pageable pageable, Integer airlineId);
 
+    List<Flight> findByFlightCodeContainingOrderByIdAsc(Pageable pageable, String flightCode);
+
+    @Query(value = "SELECT * FROM Flight WHERE airline_id = :airlineId and flight_code like %:flightCode% ORDER BY flight_id", nativeQuery=true)
+    List<Flight> findByAirlineAndFlightCode(Pageable pageable, Integer airlineId, String flightCode);
+
     List<Flight> findAllByOrderByIdAsc(Pageable pageable);
 
 }

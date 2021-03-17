@@ -11,7 +11,7 @@ public interface FlightService {
 
     Flight getFlightById(Integer id);
 
-    List<FlightDTO> getFlight(Integer size, Integer page, Integer airlineId);
+    List<FlightDTO> getFlight(Integer size, Integer page, Integer airlineId, String flightCode);
 
     FlightDTO findFlight(Integer id);
 

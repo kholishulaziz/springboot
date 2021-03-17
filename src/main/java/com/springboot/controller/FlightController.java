@@ -47,14 +47,15 @@ public class FlightController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping(value = Const.API_FLIGHT)
+    @GetMapping(value = Const.API_FLIGHTS)
     public ResponseEntity<BaseResponse<Collection<FlightDTO>>> getAllFlight(
             @RequestParam(required = false) Integer size,
             @RequestParam(required = false) Integer page,
-            @RequestParam(required = false) Integer airlineId) {
+            @RequestParam(required = false) Integer airlineId,
+            @RequestParam(required = false) String flightCode) {
         BaseResponse<Collection<FlightDTO>> response = new BaseResponse<>();
         try {
-            List<FlightDTO> flight = flightService.getFlight(size, page, airlineId);
+            List<FlightDTO> flight = flightService.getFlight(size, page, airlineId, flightCode);
             response.setMessage(Const.MESSAGE_SUCCESS);
             response.setBody(flight);
         } catch (Exception e) {
@@ -119,7 +120,7 @@ public class FlightController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PutMapping(value = Const.API_FLIGHT + "/{flightId}" + Const.API_PASSENGER + "/{passengerId}")
+    @PutMapping(value = Const.API_FLIGHT + "/{flightId}" + Const.API_PASSENGERS + "/{passengerId}")
     public ResponseEntity<BaseResponse<FlightDTO>> addPasengerIntoFlight(@PathVariable Integer flightId, @PathVariable Integer passengerId) {
         BaseResponse<FlightDTO> response = new BaseResponse<>();
         try {
