@@ -25,8 +25,7 @@ CREATE TABLE miscellaneous (
 	miscellaneous_id int4 NOT NULL,
 	flight_id int4 NULL,
 	miscellaneous varchar(255) NULL,
-	CONSTRAINT miscellaneous_pkey PRIMARY KEY (miscellaneous_id),
-	CONSTRAINT miscellaneous_flight FOREIGN KEY (flight_id) REFERENCES flight(flight_id)
+	CONSTRAINT miscellaneous_pkey PRIMARY KEY (miscellaneous_id)
 );
 
 CREATE TABLE passenger (

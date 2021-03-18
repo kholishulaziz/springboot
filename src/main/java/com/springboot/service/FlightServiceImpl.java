@@ -84,9 +84,11 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     public FlightDTO editFlight(Integer flightId, Flight flight) {
-        getFlightById(flightId);
+        Flight oldFlight = getFlightById(flightId);
         flight.setId(flightId);
         flight.setAirline(airlineService.getAirlineById(flight.getAirlineId()));
+        flight.setPassengers(oldFlight.getPassengers());
+        flight.setMiscellaneous(oldFlight.getMiscellaneous());
         flightRepository.save(flight);
         FlightDTO flightDTO = convertToFlightDTO(flight);
         return flightDTO;
