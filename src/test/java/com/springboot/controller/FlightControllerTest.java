@@ -2,7 +2,6 @@ package com.springboot.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.model.Flight;
-import com.springboot.model.FlightDTO;
 import com.springboot.service.FlightService;
 import com.springboot.util.Const;
 import org.junit.BeforeClass;
@@ -37,21 +36,17 @@ public class FlightControllerTest {
     private ObjectMapper objectMapper;
 
     private static Flight flight;
-    private static FlightDTO flightDTO;
 
     @BeforeClass
     public static void setUpData() {
         flight = new Flight();
         flight.setFlightCode("GA303");
-
-        flightDTO = new FlightDTO();
-        flightDTO.setFlightCode("GA303");
     }
 
     @Test
     public void givenRequestWhenAddFlightThenReturnOk() throws Exception {
         Mockito.when(flightService.addFlight(ArgumentMatchers.any(Flight.class)))
-                .thenReturn(flightDTO);
+                .thenReturn(flight);
 
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/api" + Const.API_FLIGHT)
@@ -59,7 +54,7 @@ public class FlightControllerTest {
                 .content(objectMapper.writeValueAsString(flight)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.message", is(Const.MESSAGE_SUCCESS)))
-                .andExpect(content().string(containsString(objectMapper.writeValueAsString(flightDTO))))
+                .andExpect(content().string(containsString(objectMapper.writeValueAsString(flight))))
                 .andDo(MockMvcResultHandlers.print());
     }
 }

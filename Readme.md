@@ -4,9 +4,8 @@
 * JDK 8
 * Maven
 * Springboot 2.4.3
-* PostgreSQL
+* [Elasticsearch 7.15](https://www.elastic.co/elasticsearch/)   
 * Swagger
-* Flyway
 * Junit
 * Mockito
 
@@ -15,5 +14,9 @@
 mvn spring-boot:run
 ```
 
-**Demo:**
-https://aziz-springboot.herokuapp.com/
+
+**Checking on Kibana:**
+```
+GET flight/_mapping
+GET flight/_search
+```

@@ -1,41 +1,22 @@
 package com.springboot.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.Set;
 
-import static javax.persistence.CascadeType.PERSIST;
-
-@Entity
-@Table(name = "flight")
+@Document(indexName = "flight")
 public class Flight {
 
 	@ApiModelProperty(required = false, hidden = true)
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "flight_id")
-	private int id;
+	private String id;
 
-	@NotBlank
+	@Field(type = FieldType.Keyword)
 	@ApiModelProperty(notes = "Unique flight code", example = "GA303")
 	private String flightCode;
 
@@ -45,38 +26,17 @@ public class Flight {
 	@ApiModelProperty(example = "JOG")
 	private String destination;
 
+	@Field(name = "departure_date", type = FieldType.Date, format = DateFormat.date_time)
 	private Date departureDate;
 
-	@Transient
 	@ApiModelProperty(notes = "Airline", example = "1")
 	private int airlineId;
 
-	@JsonIgnore
-	@ManyToOne
-	@Fetch(FetchMode.JOIN)
-	@JoinColumn(name = "airline_id")
-	private Airline airline;
-
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, cascade = PERSIST)
-	@JoinTable(
-			name = "flight_passenger",
-			joinColumns = {@JoinColumn(name = "flight_id")},
-			inverseJoinColumns = {@JoinColumn(name = "passenger_id")}
-	)
-	private Set<Passenger> passengers;
-
-	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL,
-			orphanRemoval = true)
-	@JoinColumn(name="flight_id")
-	private Set<Miscellaneous> miscellaneous;
-
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -120,27 +80,4 @@ public class Flight {
 		this.airlineId = airlineId;
 	}
 
-	public Airline getAirline() {
-		return airline;
-	}
-
-	public void setAirline(Airline airline) {
-		this.airline = airline;
-	}
-
-	public Set<Passenger> getPassengers() {
-		return passengers;
-	}
-
-	public void setPassengers(Set<Passenger> passengers) {
-		this.passengers = passengers;
-	}
-
-	public Set<Miscellaneous> getMiscellaneous() {
-		return miscellaneous;
-	}
-
-	public void setMiscellaneous(Set<Miscellaneous> miscellaneous) {
-		this.miscellaneous = miscellaneous;
-	}
 }
