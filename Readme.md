@@ -19,4 +19,22 @@ mvn spring-boot:run
 ```
 GET flight/_mapping
 GET flight/_search
+{
+  "aggs": {
+    "flight_by_month": {
+      "date_histogram": {
+        "field": "departure_date",
+        "calendar_interval": "month",
+        "format": "yyyy-MM"
+      },
+      "aggs": {
+        "by_flightCode": {
+          "terms": {
+            "field": "flightCode"
+          }
+        }
+      }
+    }
+  }
+}
 ```
