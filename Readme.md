@@ -14,7 +14,6 @@
 mvn spring-boot:run
 ```
 
-
 **Checking on Kibana:**
 ```
 GET flight/_mapping
@@ -38,3 +37,6 @@ GET flight/_search
   }
 }
 ```
+
+**Demo:**
+https://aziz-springboot-es.herokuapp.com/
