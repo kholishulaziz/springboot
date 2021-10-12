@@ -19,6 +19,14 @@ mvn spring-boot:run
 GET flight/_mapping
 GET flight/_search
 {
+  "query": {
+    "match": {
+      "flightCode": "GA303"
+    }
+  }
+}
+GET flight/_search
+{
   "aggs": {
     "flight_by_month": {
       "date_histogram": {
@@ -37,6 +45,3 @@ GET flight/_search
   }
 }
 ```
-
-**Demo:**
-https://aziz-springboot-es.herokuapp.com/
